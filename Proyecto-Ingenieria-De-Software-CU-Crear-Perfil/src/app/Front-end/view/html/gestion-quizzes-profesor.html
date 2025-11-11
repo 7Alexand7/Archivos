@@ -1,0 +1,89 @@
+<div class="container-gestion-quizzes">
+  <div class="card-quiz">
+    <h2>Gestión de Quizzes</h2>
+
+    <div class="actions">
+      <!--Mantiene el boton de crear quiz clickeable para mostrar error; estiliza como deshabilitado cuando se alcanza el límite -->
+      <button class="btn-primary" id="btn-add-quiz" (click)="toggleForm()" [class.disabled-look]="quizzes.length >= MAX_QUIZZES" [title]="quizzes.length >= MAX_QUIZZES ? 'Máximo de 10 quizzes alcanzado' : ''">{{ showForm ? 'Cancelar' : 'Crear nuevo quiz' }}</button>
+      <button class="btn-secondary" routerLink="/gestion-cursos">Salir</button>
+    </div>
+
+    <div *ngIf="statusMsg" class="action-status" [class.success]="statusType === 'success'" [class.error]="statusType === 'error'">{{ statusMsg }}</div>
+
+    <form *ngIf="showForm" class="quiz-form" (ngSubmit)="addQuiz()">
+      <div class="form-row">
+        <label for="title">Título</label>
+        <input id="title" name="title" placeholder="Titulo del quiz" [(ngModel)]="form.title" required />
+      </div>
+      <div class="form-row">
+        <label for="description">Descripción</label>
+        <textarea id="description" name="description" [(ngModel)]="form.description" rows="2"></textarea>
+      </div>
+
+      <div class="question-builder">
+        <h3>Agregar pregunta</h3>
+        <div class="form-row">
+          <label for="qtext">Texto</label>
+          <input id="qtext" name="qtext" [(ngModel)]="currentQuestion.text" />
+        </div>
+
+        <div class="options-list">
+          <label>Opciones</label>
+          <div class="option-row" *ngFor="let opt of currentQuestion.options; let i = index">
+            <input type="radio" name="correctOpt" [checked]="opt.isCorrect" (click)="setCorrectOption(i)" />
+            <input [(ngModel)]="currentQuestion.options[i].text" name="opt{{i}}" placeholder="Texto de opción" />
+            <button type="button" (click)="removeOptionFromCurrentQuestion(i)">-</button>
+          </div>
+          <div class="option-actions">
+            <button class="btn-primary" type="button" (click)="addOptionToCurrentQuestion()">Agregar opción</button>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-primary" type="button" (click)="addQuestionToForm()">Añadir pregunta al quiz</button>
+        </div>
+      </div>
+
+      <div class="added-questions" *ngIf="form.questions.length > 0">
+        <h4>Preguntas añadidas</h4>
+        <ol>
+          <li *ngFor="let pq of form.questions; let qi = index" [class.question-error]="qi === problematicQuestionIndex">
+            <strong>{{ pq.text }}</strong>
+            <ul>
+              <li *ngFor="let o of pq.options">{{ o.text }} <span *ngIf="o.isCorrect">(Correcta)</span></li>
+            </ul>
+            <button class="btn-danger" type="button" (click)="removeQuestionFromForm(qi)">Eliminar pregunta</button>
+          </li>
+        </ol>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" type="button" (click)="addQuiz()">Guardar quiz</button>
+      </div>
+    </form>
+
+  <!-- status is shown above the form near the action buttons as .action-status -->
+
+    <table class="quizzes-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Curso</th>
+          <th>Preguntas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let q of quizzes">
+          <td>{{ q.id }}</td>
+          <td>{{ q.title }}</td>
+          <td>{{ q.course }}</td>
+          <td>{{ q.questions.length || 0 }}</td>
+        </tr>
+        <tr *ngIf="quizzes.length === 0">
+          <td colspan="4">No hay quizzes. Crea uno usando el botón "Crear nuevo quiz".</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="note">Nota: Actualmente la creación es local (memoria). En la próxima iteración integrar con el backend para persistencia.</p>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="container-gestion-quizzes">
+  <div class="card-quiz">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2>Quizzes disponibles</h2>
+      <button class="btn-secondary" routerLink="/gestion-cursos">Salir</button>
+    </div>
+
+    <!-- 'Ver como profesor' removed for student view -->
+
+    <div *ngIf="view === 'list'">
+      <ul class="quiz-list">
+        <li *ngFor="let q of quizzes; let i = index">
+          <div class="quiz-item">
+            <div>
+              <h3>{{ q.title }}</h3>
+              <p class="muted">{{ q.description }}</p>
+            </div>
+            <div>
+              <button class="btn-primary" (click)="openQuiz(i)">Presentar</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="view === 'take' && selectedQuizIndex !== null">
+      <button class="btn-secondary" (click)="backToList()">Volver</button>
+      <h3>{{ quizzes[selectedQuizIndex].title }}</h3>
+      <p class="muted">{{ quizzes[selectedQuizIndex].description }}</p>
+
+      <form class="take-quiz">
+        <div *ngFor="let ques of quizzes[selectedQuizIndex].questions; let qi = index" class="take-question">
+          <p class="q-text">{{ qi + 1 }}. {{ ques.text }}</p>
+          <div class="q-options">
+            <label *ngFor="let opt of ques.options; let oi = index" class="option-row">
+              <input type="radio" name="answer{{qi}}" [checked]="currentAnswers[qi] === oi" (change)="answerQuestion(qi, oi)" />
+              <span>{{ opt.text }}</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-primary" type="button" (click)="submitQuiz()">Enviar respuestas</button>
+        </div>
+      </form>
+    </div>
+
+    <div *ngIf="view === 'result' && selectedQuizIndex !== null">
+      <h3>Resultado</h3>
+      <p>Obtuviste {{ score }} de {{ quizzes[selectedQuizIndex].questions.length }} aciertos.</p>
+      <div class="form-actions">
+        <button class="btn-primary" (click)="backToList()">Volver a lista</button>
+      </div>
+    </div>
+  </div>
+</div>

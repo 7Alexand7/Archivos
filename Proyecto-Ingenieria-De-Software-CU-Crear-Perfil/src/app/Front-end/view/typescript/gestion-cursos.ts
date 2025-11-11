@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { ClaseController } from '../../../Back-end/controllers/clase.controller';
 import { Clase } from '../../../Back-end/models/clase.model';
@@ -26,7 +26,7 @@ interface Usuario {
 @Component({
   selector: 'app-gestion-cursos',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: '../html/gestion-cursos.html',
   styleUrls: ['../css/gestion-cursos.css']
 })
@@ -37,7 +37,48 @@ export class GestionCursos implements OnInit {
     nombre: ''
   };
 
-  cursosPredefinidos: Curso[] = [];
+  cursosPredefinidos: Curso[] = [
+    {
+      id: 1,
+      nombre: 'Ingeniería de Software',
+      codigo: '202615-16015',
+      periodo: '202615 Sem Sep/Ene 25-26 PR',
+      agregado: false,
+      esDelSistema: true,
+      creadoPor: 'Sistema',
+      fechaCreacion: '2025-01-01'
+    },
+    {
+      id: 2,
+      nombre: 'Base de Datos',
+      codigo: '202615-16016',
+      periodo: '202615 Sem Sep/Ene 25-26 PR',
+      agregado: false,
+      esDelSistema: true,
+      creadoPor: 'Sistema',
+      fechaCreacion: '2025-01-01'
+    },
+    {
+      id: 3,
+      nombre: 'Programación Avanzada',
+      codigo: '202615-16017',
+      periodo: '202615 Sem Sep/Ene 25-26 PR',
+      agregado: false,
+      esDelSistema: true,
+      creadoPor: 'Sistema',
+      fechaCreacion: '2025-01-01'
+    },
+    {
+      id: 4,
+      nombre: 'Estructuras de Datos',
+      codigo: '202615-16018',
+      periodo: '202615 Sem Sep/Ene 25-26 PR',
+      agregado: false,
+      esDelSistema: true,
+      creadoPor: 'Sistema',
+      fechaCreacion: '2025-01-01'
+    }
+  ];
   cursosProfesor: Curso[] = [];
 
   nuevoCurso: Partial<Curso> = {
@@ -110,6 +151,28 @@ export class GestionCursos implements OnInit {
       this.router.navigate(['/gestion_tareas'], { queryParams: dataEnviar });
     } else {
       this.router.navigate(['/gestion_tareas_est'], { queryParams: dataEnviar });
+    }
+  }
+
+  verQuizzesCurso(curso: Curso): void {
+    const datosUsuario = sessionStorage.getItem('usuario');
+    let usuarioData: any = null;
+
+    if (datosUsuario) {
+      usuarioData = JSON.parse(datosUsuario);
+    }
+
+    const dataEnviar = {
+      cursoNombre: curso.nombre,
+      cursoCodigo: curso.codigo,
+      usuario: usuarioData
+    };
+
+    // Redirigir según el rol detectado
+    if (this.usuario.tipo === 'profesor') {
+      this.router.navigate(['/gestion-quizzes-profesor'], { queryParams: dataEnviar });
+    } else {
+      this.router.navigate(['/gestion-quizzes-estudiante'], { queryParams: dataEnviar });
     }
   }
 

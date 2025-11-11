@@ -73,7 +73,9 @@
             <i class="bi bi-clipboard-check"></i>
             <span>Tareas</span>
           </a>
-          <a href="#" class="action-btn">
+          <a class="action-btn" style="cursor: pointer;" 
+             [routerLink]="usuario.tipo === 'profesor' ? '/gestion-quizzes-profesor' : '/gestion-quizzes-estudiante'"
+             [queryParams]="{cursoNombre: curso.nombre, cursoCodigo: curso.codigo}">
             <i class="bi bi-pencil-square"></i>
             <span>Quizzes</span>
           </a>

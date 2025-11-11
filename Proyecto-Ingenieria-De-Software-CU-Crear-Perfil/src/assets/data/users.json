@@ -43,5 +43,28 @@
       "Probabilidad-y-Estadistica"
     ],
     "createdAt": "2025-11-11T07:13:48.733Z"
+  },
+  {
+    "id": "mhuh87cg42dsyioa9kd",
+    "username": "juan01020304",
+    "password": "Q123456y",
+    "name": "juan",
+    "lastname": "perez",
+    "asignatures": [
+      "Ingenieria-de-Software",
+      "Metodos-Numericos",
+      "Sistemas-de-Bases-de-Datos",
+      "Topicos-Especiales-de-Programacion",
+      "Calculo-Diferencial",
+      "Calculo-Integral",
+      "Calculo-Vectorial",
+      "Ecuaciones-Diferenciales-Ordinarias",
+      "Algebra-Lineal",
+      "Campos-y-Ondas",
+      "Probabilidad-y-Estadistica",
+      "Logica",
+      "Matematicas-Discretas"
+    ],
+    "createdAt": "2025-11-11T11:17:11.344Z"
   }
 ]

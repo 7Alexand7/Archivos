@@ -9,6 +9,8 @@ import { GestionTareasEst } from './Front-end/view/typescript/gestion_tareas_est
 
 import { ConsultarTareaEst } from './Front-end/view/typescript/consultar_tarea_est';
 import { ConsultarTarea } from './Front-end/view/typescript/consultar_tarea';
+import { GestionQuizzesProfesor } from './Front-end/view/typescript/gestion-quizzes-profesor';
+import { GestionQuizzesEstudiante } from './Front-end/view/typescript/gestion-quizzes-estudiante';
 
 export const routes: Routes = [
     {path: '', component:Login},
@@ -21,6 +23,8 @@ export const routes: Routes = [
     { path: 'gestion_tareas_est', component: GestionTareasEst },
     { path: 'consultar_tarea/:id', component: ConsultarTarea },
     { path: 'consultar_tarea_est/:id', component: ConsultarTareaEst },
+    { path: 'gestion-quizzes-profesor', component: GestionQuizzesProfesor },
+    { path: 'gestion-quizzes-estudiante', component: GestionQuizzesEstudiante },
     {path : '**', redirectTo: '' }
 ];
 
