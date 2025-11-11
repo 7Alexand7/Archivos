@@ -29,10 +29,25 @@ export class Login {
       password: this.password
     });
 
-    if (result.success) {
+    // 🔹 Verificar que el resultado sea exitoso y tenga usuario
+    if (result.success && result.user) {
+      // Detectar si es el usuario profesor
+      const rolDetectado =
+        result.user.username === 'carlosGonzalez' ? 'Profesor' : 'Estudiante';
+
+      // Crear el objeto con el rol incluido
+      const usuario = {
+        ...result.user,
+        rol: rolDetectado
+      };
+
+      // Guardar usuario con rol en sessionStorage
+      sessionStorage.setItem('usuario', JSON.stringify(usuario));
+
+      // Redirigir a Gestión de Cursos
       this.router.navigate(['/gestion-cursos']);
     } else {
-      this.errorMessage = result.message;
+      this.errorMessage = result.message || 'Error de autenticación.';
     }
   }
 }

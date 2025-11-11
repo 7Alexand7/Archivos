@@ -1,0 +1,105 @@
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="mb-0">[{{ cursoNombre }}] - Tareas</h3>
+      <button class="btn-add" title="Agregar tarea" (click)="toggleForm()">
+        <span>+</span>
+      </button>
+    </div>
+
+    <div class="card-body">
+      <!-- Widget: Agregar Tarea -->
+      <div *ngIf="showForm" class="add-task-card">
+        <h4 class="add-task-title">Nueva tarea</h4>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <div class="form-grid">
+            <!-- Título -->
+            <div class="form-field">
+              <label class="form-label">Título</label>
+              <input
+                class="form-control"
+                type="text"
+                formControlName="titulo"
+                placeholder="Ej: Investigación sobre Angular">
+              <small class="text-muted" *ngIf="form.get('titulo')?.touched && form.get('titulo')?.invalid">
+                Título obligatorio (mínimo 3 caracteres).
+              </small>
+            </div>
+
+            <!-- Fecha de entrega -->
+            <div class="form-field">
+              <label class="form-label">Fecha (entrega)</label>
+              <input
+                class="form-control"
+                type="date"
+                formControlName="entrega">
+              <small class="text-muted" *ngIf="form.get('entrega')?.touched && form.get('entrega')?.invalid">
+                Fecha obligatoria.
+              </small>
+            </div>
+
+            <!-- Descripción -->
+            <div class="form-field form-field-full">
+              <label class="form-label">Descripción (opcional)</label>
+              <textarea
+                class="form-control"
+                rows="3"
+                formControlName="descripcion"
+                placeholder="Detalles de la tarea..."></textarea>
+            </div>
+          </div>
+
+          <div class="add-task-actions">
+            <button type="submit" class="btn-primary">Agregar</button>
+            <button type="button" class="btn-secondary" (click)="cancel()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Mensaje vacío -->
+      <p class="text-muted" *ngIf="!showForm && tareas.length === 0">
+        Aquí se mostrarán las tareas asignadas al curso seleccionado.
+      </p>
+
+      <!-- Lista de tareas -->
+      <ul class="task-list" *ngIf="tareas.length > 0">
+        <li
+          class="task-item"
+          *ngFor="let tarea of tareas; trackBy: trackById"
+          (click)="verDetalle(tarea)"
+          style="cursor:pointer">
+          <div class="task-text">
+            <span class="task-title">{{ tarea.titulo }}</span>
+            <div class="task-subtitle">
+              Entrega: {{ tarea.fechaCorta }} • Estado: Activa • Puntaje: {{ tarea.puntaje ?? '—' }}
+            </div>
+          </div>
+
+          <div class="task-actions">
+            <button class="btn-icon edit" title="Editar tarea" aria-label="Editar tarea">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zm14.81-9.06
+                     l1.44-1.44a1 1 0 000-1.41l-1.59-1.59a1 1 0 00-1.41 0
+                     l-1.44 1.44 3 3z" />
+              </svg>
+            </button>
+
+            <button class="btn-icon delete" title="Eliminar tarea" aria-label="Eliminar tarea" (click)="eliminar(tarea); $event.stopPropagation()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+            </svg>
+          </button>
+
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card-footer text-end">
+      <a routerLink="/gestion-cursos">Volver a Cursos</a>
+    </div>
+  </div>
+</div>

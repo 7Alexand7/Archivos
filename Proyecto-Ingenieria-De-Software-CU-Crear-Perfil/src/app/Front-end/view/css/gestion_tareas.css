@@ -1,0 +1,248 @@
+/* ===== Contenedor principal ===== */
+.container {
+  animation: fadeIn 0.8s ease-out; /* animación de entrada suave */
+}
+
+/* ===== Lista de tareas ===== */
+.task-list {
+  list-style: none;   /* sin viñetas */
+  padding: 0;         /* quita padding por defecto del <ul> */
+  margin-top: 1rem;   /* separación superior */
+}
+
+/* ===== Ítem de tarea (tarjeta) ===== */
+.task-item {
+  display: flex;                    /* título a la izquierda, acciones a la derecha */
+  justify-content: space-between;   /* separa contenido horizontalmente */
+  align-items: center;              /* centra verticalmente */
+  background-color: #f9fafc;        /* fondo claro de tarjeta */
+  border: 1px solid #e9ecef;        /* borde suave */
+  border-radius: 10px;              /* esquinas redondeadas */
+  padding: 1rem 1.5rem;             /* respiración interna */
+  margin-bottom: 1rem;              /* separación entre tarjetas */
+  transition: all 0.3s ease;        /* suaviza hover */
+}
+
+.task-item:hover {
+  transform: translateY(-2px);                          /* levanta 2px al pasar el mouse */
+  box-shadow: var(--shadow), 0 5px 15px rgba(0,0,0,.1); /* sombra sutil */
+}
+
+/* ===== Tipografía de títulos ===== */
+.task-title {
+  font-weight: 600;            /* seminegrita */
+  color: var(--dark-text);     /* color de texto del tema */
+}
+
+/* ===== Botón genérico de éxito (si lo usas en otro lado) ===== */
+.btn-success {
+  background: linear-gradient(135deg, var(--success-color), #304ceb); /* degradado */
+  border: none;              /* sin borde */
+  border-radius: 10px;       /* esquinas */
+  padding: 0.6rem 1.2rem;    /* respiración interna */
+  font-weight: 600;          /* enfatiza texto */
+  letter-spacing: 0.5px;     /* espacio entre letras */
+  transition: all 0.3s;      /* suaviza hover */
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);                     /* levanta al hover */
+  box-shadow: 0 5px 15px rgba(76,101,240,0.4);     /* sombra azulada */
+}
+
+/* ===== Header de la tarjeta ===== */
+.card-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; /* mismo estilo del resto del sistema */
+  padding: 1.5rem;                 /* misma separación interna */
+  border-bottom: none;             /* sin borde inferior */
+  display: flex;                   /* mantiene el botón y el título en una línea */
+  justify-content: space-between;  /* título a la izquierda, botón a la derecha */
+  align-items: center;             /* centrado vertical perfecto */
+  border-top-left-radius: 6px;    /* continuidad con el card general */
+  border-top-right-radius: 6px;
+}
+
+.card-header h3 {
+  color: #fff;         /* texto blanco para contraste con el degradado */
+  font-weight: 700;    /* negrita */
+  letter-spacing: 1px; /* mismo espaciado de letra del estilo original */
+  margin: 0;
+}
+
+
+.card-header {
+  display: flex;                      /* título + botón de añadir en línea */
+  justify-content: space-between;     /* extremos */
+  align-items: center;                /* centro vertical */
+}
+
+/* ===== Botón de añadir ( + ) ===== */
+.btn-add {
+  background:  #fff; 
+  color: #3a10d3;                   /* texto/icono blanco */
+  border: none;                  /* sin borde */
+  border-radius: 8px;            /* bordes redondeados */
+  font-size: 1.8rem;             /* tamaño del símbolo + */
+  font-weight: 700;              /* grosor del símbolo + */
+  width: 40px;
+  height: 40px;
+  display: flex;                 /* centra contenido */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;               /* cursor de mano */
+  transition: all 0.3s ease;     /* suaviza hover */
+  line-height: 1;                /* centra el + verticalmente */
+  box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3); /* sombra ligera coherente con el tema */
+}
+
+.btn-add span {
+  display: inline-block;
+  transform: translateY(-2px); /* microajuste del signo + */
+}
+
+
+
+
+.btn-add span {
+  display: inline-block;
+  transform: translateY(-2px); /* microajuste para centrar el + */
+}
+
+.btn-add:hover {
+  background-color:  #e6e6e6; /* integra con la paleta */
+  color: #000000;                             /* contraste en hover */
+}
+
+/* ===== Bloque de texto dentro de la tarea ===== */
+.task-text {
+  display: flex;             /* título arriba, subtítulo abajo */
+  flex-direction: column;
+}
+
+/* (duplicado de arriba para mantener cohesión de estilo del título) */
+.task-title {
+  font-weight: 600;
+  color: var(--dark-text);
+}
+
+/* subtítulo: fecha/estado, más pequeño y tenue */
+.task-subtitle {
+  font-size: 0.9rem;
+  color: #6c757d;      /* gris claro */
+  margin-top: 0.2rem;  /* separación respecto al título */
+}
+
+/* ===== Botones editar/eliminar (grupo) ===== */
+.task-actions {
+  display: flex;        /* íconos en fila */
+  gap: 0.5rem;          /* separación entre botones */
+}
+
+/* ===== Botón icónico genérico (idéntico al .btn-add en forma) ===== */
+.btn-icon {
+  background-color: #dfdfdf;  /* base gris */
+  color: #000;                /* ícono en negro (usa currentColor en SVG) */
+  border: none;               /* sin borde */
+  border-radius: 8px;         /* consistencia con .btn-add */
+  width: 40px; height: 40px;  /* cuadrado */
+  display: flex;              /* centra el svg */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;            /* mano */
+  transition: all 0.3s ease;  /* hover suave */
+}
+
+.btn-icon svg {
+  width: 20px; height: 20px;  /* tamaño de los íconos SVG */
+}
+
+.btn-icon:hover {
+  background-color: var(--primary-color); /* color del tema en hover */
+  color: #fff;                             /* icono blanco al hover */
+}
+
+/* ===== Diferenciación por acción (hover) ===== */
+.btn-icon.edit:hover {
+  background-color: #2b2edb;  /* azul para editar */
+}
+
+.btn-icon.delete:hover {
+  background-color: #e63946;  /* rojo para eliminar */
+}
+
+/* ===== Footer de la tarjeta ===== */
+.card-footer {
+  text-align: right;     /* alinea acciones/enlace a la derecha */
+  padding: 1rem 2rem;    /* respiración */
+}
+
+.card-footer a {
+  color: var(--primary-color); /* enlace acorde a la paleta */
+  text-decoration: none;       /* sin subrayado por defecto */
+  font-weight: 500;            /* ligera énfasis */
+}
+
+.card-footer a:hover {
+  color: var(--secondary-color);  /* variación al hover */
+  text-decoration: underline;     /* deja claro que es clickeable */
+}
+
+/* ===== Widget Agregar Tarea ===== */
+.add-task-card {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.add-task-title {
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  color: var(--dark-text);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 200px 200px; /* titulo | fecha | estado */
+  gap: 1rem;
+}
+
+.form-field { display: flex; flex-direction: column; }
+.form-field-full { grid-column: 1 / -1; }
+
+.add-task-actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btn-primary, .btn-secondary {
+  border: none;
+  border-radius: 10px;
+  padding: .65rem 1.1rem;
+  font-weight: 600;
+  letter-spacing: .3px;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: #fff;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(67,97,238,.35); }
+
+.btn-secondary {
+  background: #e9ecef;
+  color: #212529;
+}
+.btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,.12); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+

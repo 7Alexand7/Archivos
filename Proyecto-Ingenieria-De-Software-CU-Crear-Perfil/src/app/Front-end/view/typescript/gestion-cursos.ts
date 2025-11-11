@@ -33,54 +33,13 @@ interface Usuario {
 export class GestionCursos implements OnInit {
   usuario: Usuario = {
     tipo: 'profesor',
-    cursosAgregados: [1, 2],
-    nombre: 'Dr. Carlos López'
+    cursosAgregados: [],
+    nombre: ''
   };
 
-  cursosPredefinidos: Curso[] = [
-    {
-      id: 1,
-      nombre: 'Ingeniería de Software',
-      codigo: '202615-16014',
-      periodo: '202615 Sem Sep/Ene 25-26 PR',
-      agregado: true,
-      esDelSistema: true,
-      creadoPor: 'Sistema',
-      fechaCreacion: '2024-01-01'
-    },
-    {
-      id: 2,
-      nombre: 'Métodos Numéricos',
-      codigo: '202615-15702',
-      periodo: '202615 Sem Sep/Ene 25-26 PR',
-      agregado: true,
-      esDelSistema: true,
-      creadoPor: 'Sistema',
-      fechaCreacion: '2024-01-01'
-    },
-    {
-      id: 3,
-      nombre: 'Sistemas de Bases de Datos',
-      codigo: '202615-16854',
-      periodo: '202615 Sem Sep/Ene 25-26 PR',
-      agregado: false,
-      esDelSistema: true,
-      creadoPor: 'Sistema',
-      fechaCreacion: '2024-01-01'
-    },
-    {
-      id: 4,
-      nombre: 'Tópicos Especiales de Programación...',
-      codigo: '202615-15997',
-      periodo: '202615 Sem Sep/Ene 25-26 PR',
-      agregado: false,
-      esDelSistema: true,
-      creadoPor: 'Sistema',
-      fechaCreacion: '2024-01-01'
-    }
-  ];
-
+  cursosPredefinidos: Curso[] = [];
   cursosProfesor: Curso[] = [];
+
   nuevoCurso: Partial<Curso> = {
     nombre: '',
     codigo: '',
@@ -89,10 +48,9 @@ export class GestionCursos implements OnInit {
 
   mostrarModalAgregarCurso = false;
   mostrarModalCrearCurso = false;
-
   cursoSeleccionado: Curso | null = null;
   clasesDelCurso: Clase[] = [];
-  vistaClases: boolean = false;
+  vistaClases = false;
 
   private readonly CURSOS_KEY = 'cursos_profesor';
   private isBrowser: boolean;
@@ -107,21 +65,62 @@ export class GestionCursos implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargarCursosProfesor();
-    this.actualizarEstadoCursos();
-    
-    this.route.queryParams.subscribe(params => {
-      const cursoId = params['cursoId'];
-      if (cursoId) {
-        this.verClasesCurso(parseInt(cursoId));
-      }
-    });
+  if (this.isBrowser) {
+    const savedUser = sessionStorage.getItem('usuario');
+    if (savedUser) {
+      const data = JSON.parse(savedUser);
+      this.usuario.tipo =
+        data.rol?.toLowerCase() === 'profesor' ? 'profesor' : 'estudiante';
+      this.usuario.nombre = `${data.name || data.username || ''} ${data.lastname || ''}`.trim();
+    }
   }
 
-  private cargarCursosProfesor(): void {
-    if (!this.isBrowser) {
-      return;
+  this.cargarCursosProfesor();
+  this.actualizarEstadoCursos();
+
+  this.route.queryParams.subscribe(params => {
+    const cursoId = params['cursoId'];
+    if (cursoId) {
+      this.verClasesCurso(parseInt(cursoId));
     }
+  });
+}
+
+
+// ==============================
+// ===== TAREAS =================
+// ==============================
+
+  verTareasCurso(curso: Curso): void {
+    const datosUsuario = sessionStorage.getItem('usuario');
+    let usuarioData: any = null;
+
+    if (datosUsuario) {
+      usuarioData = JSON.parse(datosUsuario);
+    }
+
+    const dataEnviar = {
+      cursoNombre: curso.nombre,
+      cursoCodigo: curso.codigo,
+      usuario: usuarioData
+    };
+
+    // Redirigir según el rol detectado
+    if (this.usuario.tipo === 'profesor') {
+      this.router.navigate(['/gestion_tareas'], { queryParams: dataEnviar });
+    } else {
+      this.router.navigate(['/gestion_tareas_est'], { queryParams: dataEnviar });
+    }
+  }
+
+
+
+  // ==============================
+  // ===== CURSOS =================
+  // ==============================
+
+  private cargarCursosProfesor(): void {
+    if (!this.isBrowser) return;
 
     try {
       const cursosGuardados = localStorage.getItem(this.CURSOS_KEY);
@@ -135,19 +134,13 @@ export class GestionCursos implements OnInit {
   }
 
   private guardarCursosProfesor(): void {
-    if (!this.isBrowser) {
-      return;
-    }
+    if (!this.isBrowser) return;
 
     try {
       localStorage.setItem(this.CURSOS_KEY, JSON.stringify(this.cursosProfesor));
     } catch (error) {
       console.error('Error al guardar cursos en localStorage:', error);
     }
-  }
-
-  salir(): void {
-    this.router.navigate(['/login']);
   }
 
   private actualizarEstadoCursos(): void {
@@ -175,9 +168,9 @@ export class GestionCursos implements OnInit {
   }
 
   get cursosAgregadosCount(): number {
-    const cursosAgregadosSistema = this.cursosPredefinidos.filter(curso => curso.agregado).length;
-    const cursosAgregadosProfesor = this.cursosProfesor.filter(curso => curso.agregado).length;
-    return cursosAgregadosSistema + cursosAgregadosProfesor;
+    const cursosSistema = this.cursosPredefinidos.filter(curso => curso.agregado).length;
+    const cursosProfesor = this.cursosProfesor.filter(curso => curso.agregado).length;
+    return cursosSistema + cursosProfesor;
   }
 
   agregarCursoSistema(): void {
@@ -202,7 +195,7 @@ export class GestionCursos implements OnInit {
       this.guardarCursosProfesor();
       this.limpiarFormulario();
       this.mostrarModalCrearCurso = false;
-      alert('Curso agregado al sistema exitosamente.');
+      alert('Curso agregado exitosamente.');
     } else {
       alert('Por favor complete todos los campos obligatorios.');
     }
@@ -231,10 +224,11 @@ export class GestionCursos implements OnInit {
   }
 
   private generarIdUnico(): number {
-    const idsSistema = this.cursosPredefinidos.map(curso => curso.id);
-    const idsProfesor = this.cursosProfesor.map(curso => curso.id);
-    const idsExistentes = [...idsSistema, ...idsProfesor];
-    return Math.max(...idsExistentes, 0) + 1;
+    const ids = [
+      ...this.cursosPredefinidos.map(curso => curso.id),
+      ...this.cursosProfesor.map(curso => curso.id)
+    ];
+    return ids.length ? Math.max(...ids) + 1 : 1;
   }
 
   private limpiarFormulario(): void {
@@ -258,16 +252,17 @@ export class GestionCursos implements OnInit {
   }
 
   eliminarCursoProfesor(cursoId: number): void {
-    if (confirm('¿Estás seguro de que quieres eliminar este curso?')) {
-      const index = this.cursosProfesor.findIndex(curso => curso.id === cursoId);
-      if (index > -1) {
-        this.cursosProfesor.splice(index, 1);
-        this.guardarCursosProfesor();
-        this.actualizarEstadoCursos();
-        alert('Curso eliminado exitosamente.');
-      }
+    if (confirm('¿Estás seguro de eliminar este curso?')) {
+      this.cursosProfesor = this.cursosProfesor.filter(curso => curso.id !== cursoId);
+      this.guardarCursosProfesor();
+      this.actualizarEstadoCursos();
+      alert('Curso eliminado exitosamente.');
     }
   }
+
+  // ==============================
+  // ===== CLASES =================
+  // ==============================
 
   verClasesCurso(cursoId: number): void {
     const curso = this.cursosVisibles.find(c => c.id === cursoId);
@@ -297,7 +292,7 @@ export class GestionCursos implements OnInit {
   }
 
   eliminarClase(claseId: string): void {
-    if (this.cursoSeleccionado && confirm('¿Estás seguro de que quieres eliminar esta clase?')) {
+    if (this.cursoSeleccionado && confirm('¿Deseas eliminar esta clase?')) {
       const result = this.claseController.eliminarClase(this.cursoSeleccionado.id, claseId);
       if (result.success) {
         this.clasesDelCurso = this.claseController.obtenerClasesPorCurso(this.cursoSeleccionado.id);
@@ -309,9 +304,15 @@ export class GestionCursos implements OnInit {
   }
 
   get clasesPlaceholder(): any[] {
-    if (this.clasesDelCurso.length === 0) {
-      return Array(6).fill(null);
-    }
-    return [];
+    return this.clasesDelCurso.length === 0 ? Array(6).fill(null) : [];
+  }
+
+  // ==============================
+  // ===== SESIÓN =================
+  // ==============================
+
+  salir(): void {
+    sessionStorage.removeItem('usuario');
+    this.router.navigate(['/login']);
   }
 }
