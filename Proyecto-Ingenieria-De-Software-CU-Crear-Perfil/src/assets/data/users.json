@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mhtwbpecchnmcdo04dr",
+    "username": "GarciaEscalona",
+    "password": "Mapo2020",
+    "createdAt": "2025-11-11T01:32:02.772Z"
+  },
+  {
+    "id": "mhu16k958a9m3e66t85",
+    "username": "Onavlogd12",
+    "password": "123456aA",
+    "createdAt": "2025-11-11T03:48:00.905Z"
+  },
+  {
+    "id": "mhu8cp6wrohr69l9aor",
+    "username": "oatorrealba24",
+    "password": "123456aA",
+    "name": "Onassis",
+    "lastname": "CALDERA",
+    "asignatures": [],
+    "createdAt": "2025-11-11T07:08:44.552Z"
+  },
+  {
+    "id": "mhu8j7wdzx9s33vwrpg",
+    "username": "Onavlogd123",
+    "password": "AreperA1",
+    "name": "Onassis",
+    "lastname": "Torrealba",
+    "asignatures": [
+      "Ingenieria-de-Software",
+      "Topicos-Especiales-de-Programacion",
+      "Calculo-Vectorial",
+      "Ecuaciones-Diferenciales-Ordinarias",
+      "Probabilidad-y-Estadistica"
+    ],
+    "createdAt": "2025-11-11T07:13:48.733Z"
+  }
+]

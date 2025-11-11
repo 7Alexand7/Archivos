@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+img{
+    width: 100%;
+}
+
+/* Global CSS variables and base styles moved here so they're available app-wide */
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3a0ca3;
+    --success-color: #4cc9f0;
+    --info-color: #4cc9f0;
+    --info-dark: #4895ef;
+    --light-bg: #f8f9fa;
+    --dark-text: #212529;
+    --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Body defaults for app pages (not centered). Use .auth-center to center auth screens */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Apply full-screen centering only for authentication pages */
+.auth-center {
+    min-height: calc(100vh - 40px); /* account for body padding */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

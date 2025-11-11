@@ -1,0 +1,70 @@
+<div class="auth-center">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-lg">
+                    <div class="card-header text-center bg-primary text-white">
+                        <h3 class="mb-0">Crear Nueva Clase</h3>
+                        <p class="mb-0 mt-2" *ngIf="cursoNombre">
+                            <small>Curso: {{ cursoNombre }}</small>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ errorMessage }}
+                        </div>
+                        <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ successMessage }}
+                        </div>
+
+                        <form [formGroup]="claseForm" (ngSubmit)="onSubmit()">
+                            <div class="mb-3">
+                                <label for="className" class="form-label">Nombre de la Clase *</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="className"
+                                    placeholder="Ingresa el nombre de la clase"
+                                    required
+                                    formControlName="nombre"
+                                />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Descripción *</label>
+                                <textarea
+                                    class="form-control"
+                                    id="description"
+                                    rows="3"
+                                    placeholder="Ingresa una breve descripción de la clase"
+                                    required
+                                    formControlName="descripcion"
+                                ></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="resources" class="form-label">Recursos Adicionales (Opcional)</label>
+                                <textarea
+                                    class="form-control"
+                                    id="resources"
+                                    rows="4"
+                                    placeholder="Enlaces, documentos u otros recursos..."
+                                    formControlName="recursos"
+                                ></textarea>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="button" class="btn btn-secondary btn-cancel" (click)="cancelar()">
+                                    Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-success btn-submit" [disabled]="claseForm.invalid">
+                                    Crear Clase
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
