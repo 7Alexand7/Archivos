@@ -66,5 +66,16 @@
       "Matematicas-Discretas"
     ],
     "createdAt": "2025-11-11T11:17:11.344Z"
+  },
+  {
+    "id": "mhumxnl3k6pv7ac6iaf",
+    "username": "Movalles11",
+    "password": "123456Aa",
+    "name": "Maria",
+    "lastname": "Perez",
+    "asignatures": [
+      "Ingenieria-de-Software"
+    ],
+    "createdAt": "2025-11-11T13:56:56.871Z"
   }
 ]

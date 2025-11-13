@@ -103,5 +103,47 @@
       }
     ],
     "id": 5
+  },
+  {
+    "title": "h",
+    "course": "202615-16015",
+    "description": "h",
+    "questions": [
+      {
+        "text": "hhh",
+        "options": [
+          {
+            "text": "h",
+            "isCorrect": false
+          },
+          {
+            "text": "h",
+            "isCorrect": true
+          }
+        ]
+      }
+    ],
+    "id": 6
+  },
+  {
+    "title": "Quiz 2",
+    "course": "202615-16016",
+    "description": "Quiz 2 de la materia",
+    "questions": [
+      {
+        "text": "SI?",
+        "options": [
+          {
+            "text": "si",
+            "isCorrect": true
+          },
+          {
+            "text": "no",
+            "isCorrect": false
+          }
+        ]
+      }
+    ],
+    "id": 7
   }
 ]
